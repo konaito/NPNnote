@@ -1,5 +1,6 @@
 import { NotificationCountService } from '@affine/core/modules/notification';
 import { WorkbenchService } from '@affine/core/modules/workbench';
+import { appNames } from '@affine/core/utils/channel';
 import { useLiveData, useService } from '@toeverything/infra';
 import { useEffect } from 'react';
 
@@ -12,10 +13,12 @@ export const DocumentTitle = () => {
 
   useEffect(() => {
     const prefix = notificationCount > 0 ? `(${notificationCount}) ` : '';
-    document.title = prefix + (viewTitle ? `${viewTitle} · AFFiNE` : 'AFFiNE');
+    const appName = appNames[BUILD_CONFIG.appBuildType];
+    document.title =
+      prefix + (viewTitle ? `${viewTitle} · ${appName}` : appName);
 
     return () => {
-      document.title = 'AFFiNE';
+      document.title = appName;
     };
   }, [notificationCount, viewTitle]);
 

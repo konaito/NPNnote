@@ -1,6 +1,7 @@
 import { createIdentifier, Service } from '@toeverything/infra';
 import { parsePath, type To } from 'history';
 
+import { toAppHref } from '../../../utils/app-url';
 import type { DesktopApiService } from '../../desktop-api';
 
 export type WorkbenchNewTabHandler = {
@@ -16,7 +17,7 @@ export const BrowserWorkbenchNewTabHandler: WorkbenchNewTabHandler = {
     const link =
       basename +
       (typeof to === 'string' ? to : `${to.pathname}${to.search}${to.hash}`);
-    window.open(link, '_blank');
+    window.open(toAppHref(link), '_blank');
   },
 };
 

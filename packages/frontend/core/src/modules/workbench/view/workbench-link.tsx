@@ -2,6 +2,7 @@ import { useDraggable } from '@affine/component';
 import { useAsyncCallback } from '@affine/core/components/hooks/affine-async-hooks';
 import type { AffineDNDData, AffineDNDEntity } from '@affine/core/types/dnd';
 import { inferOpenMode as inferOpenAt } from '@affine/core/utils';
+import { toAppHref } from '@affine/core/utils/app-url';
 import { useLiveData, useServices } from '@toeverything/infra';
 import { type To } from 'history';
 import { forwardRef, type MouseEvent } from 'react';
@@ -106,7 +107,7 @@ export const WorkbenchLink = forwardRef<HTMLAnchorElement, WorkbenchLinkProps>(
             ref.current = node;
           }
         }}
-        href={link}
+        href={toAppHref(link)}
         onClick={handleClick}
         onAuxClick={handleClick}
       />

@@ -233,26 +233,29 @@ const SettingModalInner = ({
                   ) : null}
                 </Suspense>
               </div>
-              <div className={style.footer}>
-                <ContactWithUsIcon fontSize={16} />
-                <Trans
-                  i18nKey={'com.affine.settings.suggestion-2'}
-                  components={{
-                    1: (
-                      <span
-                        className={style.link}
-                        onClick={handleOpenStarAFFiNEModal}
-                      />
-                    ),
-                    2: (
-                      <span
-                        className={style.link}
-                        onClick={handleOpenIssueFeedbackModal}
-                      />
-                    ),
-                  }}
-                />
-              </div>
+              {/* NPNnote: the star and issue links point to AFFiNE */}
+              {BUILD_CONFIG.isLocalOnly ? null : (
+                <div className={style.footer}>
+                  <ContactWithUsIcon fontSize={16} />
+                  <Trans
+                    i18nKey={'com.affine.settings.suggestion-2'}
+                    components={{
+                      1: (
+                        <span
+                          className={style.link}
+                          onClick={handleOpenStarAFFiNEModal}
+                        />
+                      ),
+                      2: (
+                        <span
+                          className={style.link}
+                          onClick={handleOpenIssueFeedbackModal}
+                        />
+                      ),
+                    }}
+                  />
+                </div>
+              )}
               <StarAFFiNEModal
                 open={openStarAFFiNEModal}
                 setOpen={setOpenStarAFFiNEModal}

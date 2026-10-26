@@ -1,6 +1,7 @@
 import { notify } from '@affine/component';
 import { ServerService } from '@affine/core/modules/cloud';
 import { toDocSearchParams } from '@affine/core/modules/navigation';
+import { toAppHref } from '@affine/core/utils/app-url';
 import { copyTextToClipboard } from '@affine/core/utils/clipboard';
 import { useI18n } from '@affine/i18n';
 import { track } from '@affine/track';
@@ -44,10 +45,11 @@ export const generateUrl = ({
   xywh, // not needed currently
 }: UseSharingUrl & { baseUrl: string }) => {
   try {
-    const url = new URL(`/workspace/${workspaceId}/${pageId}`, baseUrl);
     const search = toDocSearchParams({ mode, blockIds, elementIds, xywh });
-    if (search?.size) url.search = search.toString();
-    return url.toString();
+    const path =
+      `/workspace/${workspaceId}/${pageId}` +
+      (search?.size ? `?${search.toString()}` : '');
+    return new URL(toAppHref(path), baseUrl).toString();
   } catch (err) {
     console.error(err);
     return undefined;

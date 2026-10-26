@@ -133,7 +133,18 @@ export const useWorkspaceSettingList = (): SettingSidebarItem[] => {
         icon: <PaymentIcon />,
         testId: 'workspace-setting:license',
       },
-    ].filter((item): item is SettingSidebarItem => !!item);
+    ]
+      .filter((item): item is SettingSidebarItem => !!item)
+      .filter(
+        // NPNnote: members, integrations and embedding need a server
+        item =>
+          !BUILD_CONFIG.isLocalOnly ||
+          ![
+            'workspace:members',
+            'workspace:integrations',
+            'workspace:embedding',
+          ].includes(item.key)
+      );
   }, [showBilling, showLicense, t]);
 
   return items;

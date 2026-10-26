@@ -105,16 +105,56 @@ export const AboutAffine = () => {
             </SettingRow>
           </>
         ) : null}
-        <SettingRow
-          name={t['com.affine.telemetry.enable']()}
-          desc={t['com.affine.telemetry.enable.desc']()}
-        >
-          <Switch
-            checked={appSettings.enableTelemetry !== false}
-            onChange={onSwitchTelemetry}
-          />
-        </SettingRow>
+        {BUILD_CONFIG.isLocalOnly ? null : (
+          <SettingRow
+            name={t['com.affine.telemetry.enable']()}
+            desc={t['com.affine.telemetry.enable.desc']()}
+          >
+            <Switch
+              checked={appSettings.enableTelemetry !== false}
+              onChange={onSwitchTelemetry}
+            />
+          </SettingRow>
+        )}
       </SettingWrapper>
+      {BUILD_CONFIG.isLocalOnly ? <NPNnoteSourceSection /> : <AffineLinks />}
+    </>
+  );
+};
+
+// NPNnote: AFFiNE's contact, community and legal links do not apply to this
+// fork, so the local-only build links to its source and credits AFFiNE.
+// Plain text on purpose: i18n strings get AFFiNE replaced by NPNnote.
+const NPNnoteSourceSection = () => {
+  return (
+    <SettingWrapper title="Source">
+      <a
+        className={styles.link}
+        rel="noreferrer"
+        href="https://github.com/konaito/NPNnote"
+        target="_blank"
+      >
+        github.com/konaito/NPNnote
+        <OpenInNewIcon className="icon" />
+      </a>
+      <a
+        className={styles.link}
+        rel="noreferrer"
+        href="https://github.com/toeverything/AFFiNE"
+        target="_blank"
+      >
+        Based on AFFiNE (MIT License)
+        <OpenInNewIcon className="icon" />
+      </a>
+    </SettingWrapper>
+  );
+};
+
+const AffineLinks = () => {
+  const t = useI18n();
+  const { urlService } = useServices({ UrlService });
+  return (
+    <>
       <SettingWrapper title={t['com.affine.aboutAFFiNE.contact.title']()}>
         <a
           className={styles.link}

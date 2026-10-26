@@ -1,5 +1,5 @@
 import { DebugLogger } from '@affine/debug';
-import type { BackendModule, i18n } from 'i18next';
+import type { BackendModule, i18n, PostProcessorModule } from 'i18next';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
@@ -11,12 +11,20 @@ const logger = new DebugLogger('i18n');
 
 const defaultLng: Language = 'en';
 
+// NPNnote: the local-only build shows its own name instead of AFFiNE
+const appNamePostProcessor: PostProcessorModule = {
+  type: 'postProcessor',
+  name: 'appName',
+  process: (value: string) => value.replaceAll('AFFiNE', 'NPNnote'),
+};
+
 let _instance: i18n | null = null;
 export const getOrCreateI18n = (): i18n => {
   if (!_instance) {
     _instance = i18next.createInstance();
     _instance
       .use(initReactI18next)
+      .use(appNamePostProcessor)
       .use({
         type: 'backend',
         init: () => {},
@@ -68,6 +76,7 @@ export const getOrCreateI18n = (): i18n => {
         interpolation: {
           escapeValue: false, // not needed for react as it escapes by default
         },
+        postProcess: BUILD_CONFIG.isLocalOnly ? ['appName'] : false,
       })
       .then(() => {
         logger.info('i18n initialized');

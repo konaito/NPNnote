@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import {
   createBrowserRouter as reactRouterCreateBrowserRouter,
+  createHashRouter,
   redirect,
   useNavigate,
 } from 'react-router-dom';
@@ -194,11 +195,18 @@ export const topLevelRoutes = [
 const createBrowserRouter = wrapCreateBrowserRouterV6(
   reactRouterCreateBrowserRouter
 );
-export const router = (
-  window.SENTRY_RELEASE ? createBrowserRouter : reactRouterCreateBrowserRouter
-)(topLevelRoutes, {
-  basename: environment.subPath,
-  future: {
-    v7_normalizeFormMethod: true,
-  },
-});
+// NPNnote: the local-only build routes after `#`, see utils/app-url.ts
+export const router = BUILD_CONFIG.isLocalOnly
+  ? createHashRouter(topLevelRoutes, {
+      future: {
+        v7_normalizeFormMethod: true,
+      },
+    })
+  : (window.SENTRY_RELEASE
+      ? createBrowserRouter
+      : reactRouterCreateBrowserRouter)(topLevelRoutes, {
+      basename: environment.subPath,
+      future: {
+        v7_normalizeFormMethod: true,
+      },
+    });

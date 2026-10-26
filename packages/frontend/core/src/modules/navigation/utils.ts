@@ -1,4 +1,5 @@
 import { channelToScheme } from '@affine/core/utils';
+import { fromAppUrl } from '@affine/core/utils/app-url';
 import type { ReferenceParams } from '@blocksuite/affine/model';
 import { isNil, pick, pickBy } from 'lodash-es';
 import type { ParsedQuery, ParseOptions } from 'query-string';
@@ -26,7 +27,7 @@ export const resolveRouteLinkMeta = (
       href = href.replace(affineProtocol, 'http://');
     }
 
-    const url = new URL(href, baseUrl);
+    const url = fromAppUrl(new URL(href, baseUrl));
 
     // check if origin is one of affine's origins
     // check if origin is localhost or self-hosted

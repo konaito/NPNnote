@@ -34,7 +34,7 @@ export const appIconMap = {
 } satisfies Record<Channel, string>;
 
 export const appNames = {
-  stable: 'AFFiNE',
+  stable: BUILD_CONFIG.isLocalOnly ? 'NPNnote' : 'AFFiNE',
   canary: 'AFFiNE Canary',
   beta: 'AFFiNE Beta',
   internal: 'AFFiNE Internal',
