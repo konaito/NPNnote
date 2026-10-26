@@ -11,8 +11,6 @@ type LocalDemoTipsProps = {
   onLogin: () => void;
   onEnableCloud: () => void;
   onClose: () => void;
-  message?: string;
-  buttonLabel?: string;
 };
 
 export const LocalDemoTips = ({
@@ -20,13 +18,11 @@ export const LocalDemoTips = ({
   isLoggedIn,
   onLogin,
   onEnableCloud,
-  message,
-  buttonLabel: customButtonLabel,
 }: LocalDemoTipsProps) => {
   const t = useI18n();
-  const buttonLabel =
-    customButtonLabel ??
-    (isLoggedIn ? t['Enable AFFiNE Cloud']() : t['Sign in and Enable']());
+  const buttonLabel = isLoggedIn
+    ? t['Enable AFFiNE Cloud']()
+    : t['Sign in and Enable']();
 
   const handleClick = useCallback(() => {
     if (isLoggedIn) {
@@ -38,7 +34,7 @@ export const LocalDemoTips = ({
   return (
     <div className={styles.tipsContainer} data-testid="local-demo-tips">
       <div className={styles.tipsMessage}>
-        {message ?? t['com.affine.banner.local-warning']()}
+        {t['com.affine.banner.local-warning']()}
       </div>
 
       <div className={styles.tipsRightItem}>

@@ -2163,7 +2163,6 @@
   "error.REPLY_NOT_FOUND": "返信が見つかりません。",
   "error.COMMENT_ATTACHMENT_NOT_FOUND": "コメント添付ファイルが見つかりません。",
   "error.COMMENT_ATTACHMENT_QUOTA_EXCEEDED": "コメント添付ファイルのサイズクォータを超過しました。",
-  "com.npnnote.banner.local-only": "ノートはこのブラウザの中にだけ保存され、どこにも送信されません。サイトデータを消すと失われるので、定期的にバックアップを書き出してください。",
   "com.npnnote.backup.title": "バックアップ",
   "com.npnnote.backup.export": "バックアップを書き出す",
   "com.npnnote.backup.export.description": "このワークスペースの全ドキュメントを、添付ファイルを含むJSONスナップショットのzipとして保存します。",

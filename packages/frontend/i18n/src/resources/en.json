@@ -2445,7 +2445,6 @@
   "com.affine.realtime.connection-error.network": "The server cannot be reached. Check your network connection and server proxy.",
   "com.affine.realtime.connection-error.server": "The server rejected the real-time request. Try again later.",
   "com.affine.realtime.connection-error.timeout": "The server did not respond in time. AFFiNE will keep trying to reconnect.",
-  "com.npnnote.banner.local-only": "Your notes live only in this browser and are never sent anywhere. Clearing site data can erase them, so export a backup regularly.",
   "com.npnnote.backup.title": "Backup",
   "com.npnnote.backup.export": "Export backup",
   "com.npnnote.backup.export.description": "Download every doc in this workspace as a .zip of JSON snapshots, including attached files.",

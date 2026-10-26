@@ -4,7 +4,6 @@ import { useLiveData, useService } from '@toeverything/infra';
 import { useCallback, useState } from 'react';
 
 import { useEnableCloud } from '../components/hooks/affine/use-enable-cloud';
-import { useWorkspaceBackup } from '../components/hooks/affine/use-workspace-backup';
 import { AuthService } from '../modules/cloud';
 import { GlobalDialogService } from '../modules/dialogs';
 import type { Workspace } from '../modules/workspace';
@@ -68,33 +67,19 @@ export const TopTip = ({
   const [showWarning, setShowWarning] = useState(shouldShowWarning);
   const [showLocalDemoTips, setShowLocalDemoTips] = useState(true);
   const confirmEnableCloud = useEnableCloud();
-  const t = useI18n();
-  const { exportBackup } = useWorkspaceBackup(workspace);
 
   const globalDialogService = useService(GlobalDialogService);
   const onLogin = useCallback(() => {
     globalDialogService.open('sign-in', {});
   }, [globalDialogService]);
 
+  // NPNnote: browser-only storage is the premise, not something to warn about
   if (
     !BUILD_CONFIG.isElectron &&
+    !BUILD_CONFIG.isLocalOnly &&
     showLocalDemoTips &&
     workspace.flavour === 'local'
   ) {
-    if (BUILD_CONFIG.isLocalOnly) {
-      return (
-        <LocalDemoTips
-          isLoggedIn
-          message={t['com.npnnote.banner.local-only']()}
-          buttonLabel={t['com.npnnote.backup.export']()}
-          onLogin={exportBackup}
-          onEnableCloud={exportBackup}
-          onClose={() => {
-            setShowLocalDemoTips(false);
-          }}
-        />
-      );
-    }
     return (
       <LocalDemoTips
         isLoggedIn={isLoggedIn}

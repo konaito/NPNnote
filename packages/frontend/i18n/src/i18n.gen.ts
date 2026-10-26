@@ -9817,10 +9817,6 @@ export function useAFFiNEI18N(): {
       */
     ["com.affine.realtime.connection-error.timeout"](): string;
     /**
-      * `Your notes live only in this browser and are never sent anywhere. Clearing site data can erase them, so export a backup regularly.`
-      */
-    ["com.npnnote.banner.local-only"](): string;
-    /**
       * `Backup`
       */
     ["com.npnnote.backup.title"](): string;
