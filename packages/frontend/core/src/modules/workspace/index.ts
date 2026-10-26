@@ -88,3 +88,4 @@ export function configureWorkspaceModule(framework: Framework) {
       GlobalCache,
     ]);
 }
+export { exportWorkspaceBackup, importWorkspaceBackup } from './npnnote/backup';

@@ -8,7 +8,7 @@ import {
   onComplete,
   onStart,
 } from '@toeverything/infra';
-import { exhaustMap, map, tap } from 'rxjs';
+import { EMPTY, exhaustMap, map, tap } from 'rxjs';
 
 import { ServerScope } from '../scopes/server';
 import { AuthService } from '../services/auth';
@@ -71,6 +71,9 @@ export class Server extends Entity<{
 
   readonly revalidateConfig = effect(
     exhaustMap(() => {
+      if (BUILD_CONFIG.isLocalOnly) {
+        return EMPTY;
+      }
       return fromPromise(signal =>
         this.serverConfigStore.fetchServerConfig(this.baseUrl, signal)
       ).pipe(

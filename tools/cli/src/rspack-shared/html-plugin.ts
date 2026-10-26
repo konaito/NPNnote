@@ -103,6 +103,10 @@ function getHTMLPluginOptions(BUILD_CONFIG: BUILD_CONFIG_TYPE) {
       ? `<link rel="preconnect" href="${cdnOrigin}" />`
       : '',
     VIEWPORT_FIT: BUILD_CONFIG.isMobileEdition ? 'cover' : 'auto',
+    // e.g. '/NPNnote/' when the app is served from a sub path, '' otherwise
+    SUB_PATH:
+      publicPath.startsWith('/') && publicPath !== '/' ? publicPath : '',
+    PUBLIC_PATH: publicPath,
   };
 
   return {

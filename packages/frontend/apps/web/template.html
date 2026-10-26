@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <!--
+      NPNnote: No Privacy, No Note.
+      The page may only load its own static files. Every request to another
+      origin is blocked by the browser.
+      'unsafe-eval' is needed by lottie-web (it loops forever without it) and
+      does not open any network path.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; worker-src 'self' blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=<%= VIEWPORT_FIT %>"
+    />
+    <meta name="env:subPath" content="<%= SUB_PATH %>" />
+
+    <title>NPNnote</title>
+    <meta name="theme-color" content="#fafafa" />
+    <link rel="icon" sizes="192x192" href="<%= PUBLIC_PATH %>favicon-192.png" />
+    <link rel="shortcut icon" href="<%= PUBLIC_PATH %>favicon.ico?v=2" />
+    <meta name="emotion-insertion-point" content="" />
+    <meta
+      name="description"
+      content="No Privacy, No Note. If others can see it, it isn't a note."
+    />
+  </head>
+
+  <body>
+    <div id="app" data-version="<%= GIT_SHORT_SHA %>"></div>
+  </body>
+</html>

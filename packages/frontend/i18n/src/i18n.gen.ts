@@ -9817,6 +9817,46 @@ export function useAFFiNEI18N(): {
       */
     ["com.affine.realtime.connection-error.timeout"](): string;
     /**
+      * `Your notes live only in this browser and are never sent anywhere. Clearing site data can erase them, so export a backup regularly.`
+      */
+    ["com.npnnote.banner.local-only"](): string;
+    /**
+      * `Backup`
+      */
+    ["com.npnnote.backup.title"](): string;
+    /**
+      * `Export backup`
+      */
+    ["com.npnnote.backup.export"](): string;
+    /**
+      * `Download every doc in this workspace as a .zip of JSON snapshots, including attached files.`
+      */
+    ["com.npnnote.backup.export.description"](): string;
+    /**
+      * `Exported {{count}} docs`
+      */
+    ["com.npnnote.backup.export.success"](options: {
+        readonly count: string;
+    }): string;
+    /**
+      * `Import backup`
+      */
+    ["com.npnnote.backup.import"](): string;
+    /**
+      * `Add the docs from a backup .zip to this workspace.`
+      */
+    ["com.npnnote.backup.import.description"](): string;
+    /**
+      * `Imported {{count}} docs`
+      */
+    ["com.npnnote.backup.import.success"](options: {
+        readonly count: string;
+    }): string;
+    /**
+      * `Backup failed`
+      */
+    ["com.npnnote.backup.failed"](): string;
+    /**
       * `An internal error occurred.`
       */
     ["error.INTERNAL_SERVER_ERROR"](): string;

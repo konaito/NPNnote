@@ -144,8 +144,8 @@ export function createHTMLTargetConfig(
       path: pkg.distPath.value,
       clean: false,
       globalObject: 'globalThis',
-      // NOTE: always keep it '/'
-      publicPath: '/',
+      // NOTE: always keep it '/', unless the app is served from a sub path
+      publicPath: process.env.PUBLIC_PATH ?? '/',
     },
     target: ['web', 'es2022'],
     mode: buildConfig.debug ? 'development' : 'production',
@@ -429,14 +429,23 @@ export function createWorkerTargetConfig(
     experiments: {
       asyncWebAssembly: true,
     },
-    entry: { [workerName]: entry },
+    entry: {
+      // NPNnote: install the network guard before any worker code runs
+      [workerName]: buildConfig.isLocalOnly
+        ? [
+            new Package('@affine/env').srcPath.join('network-guard-worker.ts')
+              .value,
+            entry,
+          ]
+        : entry,
+    },
     output: {
       filename: `js/${workerName}-${buildConfig.appVersion}.worker.js`,
       path: pkg.distPath.value,
       clean: false,
       globalObject: 'globalThis',
-      // NOTE: always keep it '/'
-      publicPath: '/',
+      // NOTE: always keep it '/', unless the app is served from a sub path
+      publicPath: process.env.PUBLIC_PATH ?? '/',
     },
     target: ['webworker', 'es2022'],
     mode: buildConfig.debug ? 'development' : 'production',

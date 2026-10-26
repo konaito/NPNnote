@@ -7,7 +7,7 @@ export function Telemetry() {
   const settings = useAtomValue(appSettingAtom);
 
   useEffect(() => {
-    if (settings.enableTelemetry === false) {
+    if (BUILD_CONFIG.isLocalOnly || settings.enableTelemetry === false) {
       sentry.disable();
       tracker.opt_out_tracking();
       return;

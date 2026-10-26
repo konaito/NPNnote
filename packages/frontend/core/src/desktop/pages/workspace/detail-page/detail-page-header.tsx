@@ -115,7 +115,7 @@ export function JournalPageHeader({ page, workspace }: PageHeaderProps) {
         page={page}
         containerWidth={containerWidth}
       />
-      {page && !hideShare ? (
+      {page && !hideShare && !BUILD_CONFIG.isLocalOnly ? (
         <SharePageButton workspace={workspace} page={page} />
       ) : null}
     </Header>
@@ -176,7 +176,7 @@ export function NormalPageHeader({ page, workspace }: PageHeaderProps) {
 
       {!hidePresent ? <DetailPageHeaderPresentButton /> : null}
 
-      {page && !hideShare ? (
+      {page && !hideShare && !BUILD_CONFIG.isLocalOnly ? (
         <SharePageButton workspace={workspace} page={page} />
       ) : null}
 

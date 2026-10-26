@@ -34,7 +34,7 @@ export const WorkspaceLayout = function WorkspaceLayout({
       <WorkspaceLayoutInner>{children}</WorkspaceLayoutInner>
       {/* should show after workspace loaded */}
       {/* FIXME: wait for better ai, <WorkspaceAIOnboarding /> */}
-      <AIIsland />
+      {!BUILD_CONFIG.isLocalOnly && <AIIsland />}
       <uniReactRoot.Root />
     </SWRConfigProvider>
   );

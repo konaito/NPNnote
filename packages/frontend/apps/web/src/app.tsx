@@ -39,7 +39,9 @@ if (
   const worker = new Worker(workerUrl);
   storeManagerClient = new StoreManagerClient(new OpClient(worker));
 }
-setTelemetryTransport(storeManagerClient.telemetry);
+if (!BUILD_CONFIG.isLocalOnly) {
+  setTelemetryTransport(storeManagerClient.telemetry);
+}
 window.addEventListener('beforeunload', () => {
   storeManagerClient.dispose();
 });

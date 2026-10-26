@@ -193,14 +193,14 @@ export const RootAppSidebar = memo((): ReactElement => {
         <div className={workspaceAndUserWrapper}>
           <div className={workspaceWrapper}>
             <WorkspaceNavigator
-              showEnableCloudButton
-              showSyncStatus
+              showEnableCloudButton={!BUILD_CONFIG.isLocalOnly}
+              showSyncStatus={!BUILD_CONFIG.isLocalOnly}
               open={workspaceSelectorOpen}
               onOpenChange={onWorkspaceSelectorOpenChange}
               dense
             />
           </div>
-          <UserInfo />
+          {!BUILD_CONFIG.isLocalOnly && <UserInfo />}
         </div>
         <div className={quickSearchAndNewPage}>
           <QuickSearchInput
@@ -246,16 +246,22 @@ export const RootAppSidebar = memo((): ReactElement => {
           </MenuItem>
           <InviteMembersButton />
           <TemplateDocEntrance />
-          <ExternalMenuLinkItem
-            href="https://affine.pro/blog?tag=Release+Note"
-            icon={<JournalIcon />}
-            label={t['com.affine.app-sidebar.learn-more']()}
-          />
+          {!BUILD_CONFIG.isLocalOnly && (
+            <ExternalMenuLinkItem
+              href="https://affine.pro/blog?tag=Release+Note"
+              icon={<JournalIcon />}
+              label={t['com.affine.app-sidebar.learn-more']()}
+            />
+          )}
         </CollapsibleSection>
       </SidebarScrollableContainer>
       <SidebarContainer className={bottomContainer}>
         <SidebarAudioPlayer />
-        {BUILD_CONFIG.isElectron ? <UpdaterButton /> : <AppDownloadButton />}
+        {BUILD_CONFIG.isElectron ? (
+          <UpdaterButton />
+        ) : BUILD_CONFIG.isLocalOnly ? null : (
+          <AppDownloadButton />
+        )}
       </SidebarContainer>
     </AppSidebar>
   );

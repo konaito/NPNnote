@@ -38,6 +38,8 @@ export function getBuildConfig(
           distribution === 'ios' ||
           distribution === 'android',
         isAdmin: distribution === 'admin',
+        // NPNnote: the web build never talks to any server
+        isLocalOnly: distribution === 'web',
 
         appBuildType: 'stable' as const,
         appVersion: pkg.version,

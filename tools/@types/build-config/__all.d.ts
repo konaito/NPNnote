@@ -20,6 +20,10 @@ declare interface BUILD_CONFIG_TYPE {
   isIOS: boolean;
   isAndroid: boolean;
   isAdmin: boolean;
+  /**
+   * NPNnote: no cloud server, no telemetry, no external requests
+   */
+  isLocalOnly: boolean;
 
   appVersion: string;
   editorVersion: string;

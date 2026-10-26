@@ -85,7 +85,32 @@ function getRspackBundleConfigs(pkg: Package): MultiRspackOptions {
         }),
       ] as MultiRspackOptions;
     }
-    case '@affine/web':
+    case '@affine/web': {
+      const workerConfigs = getBaseWorkerConfigs(
+        pkg,
+        createRspackWorkerTargetConfig
+      );
+      workerConfigs.push(
+        createRspackWorkerTargetConfig(
+          pkg,
+          pkg.srcPath.join('nbstore.worker.ts').value
+        )
+      );
+
+      // NPNnote: own template with a strict CSP, no selfhost entry
+      return [
+        createRspackHTMLTargetConfig(
+          pkg,
+          pkg.srcPath.join('index.tsx').value,
+          {
+            template: pkg.join('template.html').value,
+            additionalEntryForSelfhost: false,
+          },
+          workerConfigs.map(config => config.name)
+        ),
+        ...workerConfigs,
+      ] as MultiRspackOptions;
+    }
     case '@affine/mobile': {
       const workerConfigs = getBaseWorkerConfigs(
         pkg,

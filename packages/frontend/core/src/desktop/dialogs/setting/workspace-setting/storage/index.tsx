@@ -11,6 +11,7 @@ import { EnableCloudPanel } from '../preference/enable-cloud';
 import { BlobManagementPanel } from './blob-management';
 import { DiskSyncPanel } from './disk-sync';
 import { DesktopExportPanel } from './export';
+import { WebBackupPanel } from './web-backup';
 import { WorkspaceQuotaPanel } from './workspace-quota';
 
 export const WorkspaceSettingStorage = ({
@@ -33,7 +34,11 @@ export const WorkspaceSettingStorage = ({
         title={t['Storage']()}
         subtitle={t['com.affine.settings.workspace.storage.subtitle']()}
       />
-      {workspace.flavour === 'local' ? (
+      {BUILD_CONFIG.isLocalOnly ? (
+        <SettingWrapper title={t['com.npnnote.backup.title']()}>
+          <WebBackupPanel workspace={workspace} />
+        </SettingWrapper>
+      ) : workspace.flavour === 'local' ? (
         <>
           <EnableCloudPanel onCloseSetting={onCloseSetting} />{' '}
           {BUILD_CONFIG.isElectron &&
