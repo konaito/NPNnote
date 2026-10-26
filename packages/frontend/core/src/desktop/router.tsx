@@ -50,143 +50,166 @@ export const topLevelRoutes = [
         lazy: () => import('./pages/workspace/index'),
       },
       {
-        path: SHARE_ROUTE_PATH,
-        loader: ({ params }) => {
-          return redirect(
-            getWorkspaceDocPath(params.workspaceId ?? '', params.pageId ?? '')
-          );
-        },
-      },
-      {
         path: NOT_FOUND_ROUTE_PATH,
-        lazy: () => import('./pages/404'),
-      },
-      {
-        path: '/expired',
-        lazy: () => import('./pages/expired'),
-      },
-      {
-        path: '/invite/:inviteId',
-        lazy: () => import('./pages/invite'),
-      },
-      {
-        path: '/upgrade-success',
-        lazy: () => import('./pages/upgrade-success'),
-      },
-      {
-        path: '/upgrade-success/team',
-        lazy: () => import('./pages/upgrade-success/team'),
-      },
-      {
-        path: '/upgrade-success/self-hosted-team',
-        lazy: () => import('./pages/upgrade-success/self-host-team'),
-      },
-      {
-        path: '/ai-upgrade-success',
-        lazy: () => import('./pages/ai-upgrade-success'),
+        // NPNnote: the 404 page links to AFFiNE, go home instead
+        ...(BUILD_CONFIG.isLocalOnly
+          ? { loader: () => redirect('/') }
+          : { lazy: () => import('./pages/404') }),
       },
       {
         path: '/onboarding',
         lazy: () => import('./pages/onboarding'),
       },
       {
-        path: '/redirect-proxy',
-        lazy: () => import('./pages/redirect'),
-      },
-      {
-        path: '/subscribe',
-        lazy: () => import('./pages/subscribe'),
-      },
-      {
-        path: '/upgrade-to-team',
-        lazy: () => import('./pages/upgrade-to-team'),
-      },
-      {
-        path: '/try-cloud',
-        loader: () => {
-          return redirect(
-            `/sign-in?redirect_uri=${encodeURIComponent('/?initCloud=true')}`
-          );
-        },
-      },
-      {
         path: '/theme-editor',
         lazy: () => import('./pages/theme-editor'),
       },
-      {
-        path: '/clipper/import',
-        lazy: () => import('./pages/import-clipper'),
-      },
-      {
-        path: '/template/import',
-        lazy: () => import('./pages/import-template'),
-      },
-      {
-        path: '/template/preview',
-        loader: ({ request }) => {
-          const url = new URL(request.url);
-          const workspaceId = url.searchParams.get('workspaceId');
-          const docId = url.searchParams.get('docId');
-          const templateName = url.searchParams.get('name');
-          const templateMode = url.searchParams.get('mode');
-          const snapshotUrl = url.searchParams.get('snapshotUrl');
+      // NPNnote: sign-in, sharing, billing, invites and desktop handoff need a
+      // server. The local-only build drops them, so their code is not bundled.
+      ...(BUILD_CONFIG.isLocalOnly
+        ? []
+        : ([
+            {
+              path: SHARE_ROUTE_PATH,
+              loader: ({ params }) => {
+                return redirect(
+                  getWorkspaceDocPath(
+                    params.workspaceId ?? '',
+                    params.pageId ?? ''
+                  )
+                );
+              },
+            },
+            {
+              path: '/expired',
+              lazy: () => import('./pages/expired'),
+            },
+            {
+              path: '/invite/:inviteId',
+              lazy: () => import('./pages/invite'),
+            },
+            {
+              path: '/upgrade-success',
+              lazy: () => import('./pages/upgrade-success'),
+            },
+            {
+              path: '/upgrade-success/team',
+              lazy: () => import('./pages/upgrade-success/team'),
+            },
+            {
+              path: '/upgrade-success/self-hosted-team',
+              lazy: () => import('./pages/upgrade-success/self-host-team'),
+            },
+            {
+              path: '/ai-upgrade-success',
+              lazy: () => import('./pages/ai-upgrade-success'),
+            },
+            {
+              path: '/redirect-proxy',
+              lazy: () => import('./pages/redirect'),
+            },
+            {
+              path: '/subscribe',
+              lazy: () => import('./pages/subscribe'),
+            },
+            {
+              path: '/upgrade-to-team',
+              lazy: () => import('./pages/upgrade-to-team'),
+            },
+            {
+              path: '/try-cloud',
+              loader: () => {
+                return redirect(
+                  `/sign-in?redirect_uri=${encodeURIComponent('/?initCloud=true')}`
+                );
+              },
+            },
+            {
+              path: '/clipper/import',
+              lazy: () => import('./pages/import-clipper'),
+            },
+            {
+              path: '/template/import',
+              lazy: () => import('./pages/import-template'),
+            },
+            {
+              path: '/template/preview',
+              loader: ({ request }) => {
+                const url = new URL(request.url);
+                const workspaceId = url.searchParams.get('workspaceId');
+                const docId = url.searchParams.get('docId');
+                const templateName = url.searchParams.get('name');
+                const templateMode = url.searchParams.get('mode');
+                const snapshotUrl = url.searchParams.get('snapshotUrl');
 
-          return redirect(
-            `/workspace/${workspaceId}/${docId}?${new URLSearchParams({
-              isTemplate: 'true',
-              templateName: templateName ?? '',
-              snapshotUrl: snapshotUrl ?? '',
-              mode: templateMode ?? 'page',
-            }).toString()}`
-          );
-        },
-      },
-      {
-        path: '/auth/:authType',
-        lazy: () => import(/* webpackChunkName: "auth" */ './pages/auth/auth'),
-      },
-      {
-        path: '/sign-In',
-        lazy: () =>
-          import(/* webpackChunkName: "auth" */ './pages/auth/sign-in'),
-      },
-      {
-        path: '/magic-link',
-        lazy: () =>
-          import(/* webpackChunkName: "auth" */ './pages/auth/magic-link'),
-      },
-      {
-        path: '/oauth/login',
-        lazy: () =>
-          import(/* webpackChunkName: "auth" */ './pages/auth/oauth-login'),
-      },
-      {
-        path: '/oauth/callback',
-        lazy: () =>
-          import(/* webpackChunkName: "auth" */ './pages/auth/oauth-callback'),
-      },
-      // deprecated, keep for old client compatibility
-      // TODO(@forehalo): remove
-      {
-        path: '/desktop-signin',
-        lazy: () =>
-          import(/* webpackChunkName: "auth" */ './pages/auth/oauth-login'),
-      },
-      // deprecated, keep for old client compatibility
-      // use '/sign-in'
-      // TODO(@forehalo): remove
-      {
-        path: '/signIn',
-        lazy: () =>
-          import(/* webpackChunkName: "auth" */ './pages/auth/sign-in'),
-      },
-      {
-        path: '/open-app/:action',
-        lazy: () => import('./pages/open-app'),
-      },
+                return redirect(
+                  `/workspace/${workspaceId}/${docId}?${new URLSearchParams({
+                    isTemplate: 'true',
+                    templateName: templateName ?? '',
+                    snapshotUrl: snapshotUrl ?? '',
+                    mode: templateMode ?? 'page',
+                  }).toString()}`
+                );
+              },
+            },
+            {
+              path: '/auth/:authType',
+              lazy: () =>
+                import(/* webpackChunkName: "auth" */ './pages/auth/auth'),
+            },
+            {
+              path: '/sign-In',
+              lazy: () =>
+                import(/* webpackChunkName: "auth" */ './pages/auth/sign-in'),
+            },
+            {
+              path: '/magic-link',
+              lazy: () =>
+                import(
+                  /* webpackChunkName: "auth" */ './pages/auth/magic-link'
+                ),
+            },
+            {
+              path: '/oauth/login',
+              lazy: () =>
+                import(
+                  /* webpackChunkName: "auth" */ './pages/auth/oauth-login'
+                ),
+            },
+            {
+              path: '/oauth/callback',
+              lazy: () =>
+                import(
+                  /* webpackChunkName: "auth" */ './pages/auth/oauth-callback'
+                ),
+            },
+            // deprecated, keep for old client compatibility
+            // TODO(@forehalo): remove
+            {
+              path: '/desktop-signin',
+              lazy: () =>
+                import(
+                  /* webpackChunkName: "auth" */ './pages/auth/oauth-login'
+                ),
+            },
+            // deprecated, keep for old client compatibility
+            // use '/sign-in'
+            // TODO(@forehalo): remove
+            {
+              path: '/signIn',
+              lazy: () =>
+                import(/* webpackChunkName: "auth" */ './pages/auth/sign-in'),
+            },
+            {
+              path: '/open-app/:action',
+              lazy: () => import('./pages/open-app'),
+            },
+          ] satisfies RouteObject[])),
       {
         path: CATCH_ALL_ROUTE_PATH,
-        lazy: () => import('./pages/404'),
+        ...(BUILD_CONFIG.isLocalOnly
+          ? { loader: () => redirect('/') }
+          : { lazy: () => import('./pages/404') }),
       },
     ],
   },

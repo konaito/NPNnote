@@ -16,6 +16,10 @@ export function registerAffineHelpCommands({
   workspaceDialogService: WorkspaceDialogService;
 }) {
   const unsubs: Array<() => void> = [];
+  // NPNnote: what's new and contact us point to AFFiNE
+  if (BUILD_CONFIG.isLocalOnly) {
+    return () => {};
+  }
   unsubs.push(
     registerAffineCommand({
       id: 'affine:help-whats-new',

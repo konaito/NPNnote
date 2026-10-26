@@ -21,7 +21,7 @@ NPNnote はサーバーと通信しないノートアプリである。オープ
 1. ページの Content-Security-Policy で、自分の配信元以外への読み込みと送信をブラウザに拒否させる（`packages/frontend/apps/web/template.html`）。
 2. ページと全ワーカーで、fetch、XMLHttpRequest、WebSocket、EventSource、sendBeacon を差し替える。配信パス配下の静的ファイルと data:、blob: 以外は送信前に例外にする（`packages/common/env/src/network-guard.ts`）。CSP はワーカーに効かないため、この差し替えで補う。
 3. クラウドサーバーの設定取得、テレメトリ、Sentry を無効にする。
-4. サインイン、共有、AI、同期、アプリのダウンロード案内、ブラウザ保存の警告を出さない。
+4. サインイン、アカウント、共有、招待、課金、AI、同期、デスクトップアプリへの誘導の画面と入口を外す。これらの URL を開いた場合はトップに戻す。ブラウザ保存の警告も出さない。
 5. 画面の位置は URL の `#` より後ろに持つ（例 `/NPNnote/#/workspace/<ID>/<ID>`）。ブラウザは `#` 以降をサーバーに送らないので、ワークスペースとドキュメントの ID は配信元に届かない。
 
 CSP の script-src には `'unsafe-eval'` を入れている。アニメーションに使う lottie-web が eval を使えないと無限ループになるためである。eval を許しても、送信先の制限は変わらない。

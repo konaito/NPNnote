@@ -57,28 +57,30 @@ export const WorkspaceSettingDetail = ({
         >
           <ProfilePanel />
           <LabelsPanel />
-          {workspace.flavour === 'local' && (
+          {workspace.flavour === 'local' && !BUILD_CONFIG.isLocalOnly && (
             <EnableCloudPanel onCloseSetting={onCloseSetting} />
           )}
         </SettingRow>
       </SettingWrapper>
       <TemplateDocSetting />
-      <SharingPanel />
+      {BUILD_CONFIG.isLocalOnly ? null : <SharingPanel />}
       <SettingWrapper>
         <DeleteLeaveWorkspace onCloseSetting={onCloseSetting} />
-        <SettingRow
-          name={
-            <span style={{ color: 'var(--affine-text-secondary-color)' }}>
-              {t['com.affine.resetSyncStatus.button']()}
-            </span>
-          }
-          desc={t['com.affine.resetSyncStatus.description']()}
-          style={{ cursor: 'pointer' }}
-          onClick={handleResetSyncStatus}
-          data-testid="reset-sync-status"
-        >
-          <ArrowRightSmallIcon />
-        </SettingRow>
+        {BUILD_CONFIG.isLocalOnly ? null : (
+          <SettingRow
+            name={
+              <span style={{ color: 'var(--affine-text-secondary-color)' }}>
+                {t['com.affine.resetSyncStatus.button']()}
+              </span>
+            }
+            desc={t['com.affine.resetSyncStatus.description']()}
+            style={{ cursor: 'pointer' }}
+            onClick={handleResetSyncStatus}
+            data-testid="reset-sync-status"
+          >
+            <ArrowRightSmallIcon />
+          </SettingRow>
+        )}
       </SettingWrapper>
     </FrameworkScope>
   );

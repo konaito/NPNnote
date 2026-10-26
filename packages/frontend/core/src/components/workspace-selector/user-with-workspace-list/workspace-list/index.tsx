@@ -286,6 +286,19 @@ export const AFFiNEWorkspaceList = ({
     [onClickWorkspace, onEventEnd]
   );
 
+  // NPNnote: no servers, only the workspaces in this browser
+  if (BUILD_CONFIG.isLocalOnly) {
+    return (
+      <>
+        <LocalWorkspaces
+          workspaces={localWorkspaces}
+          onClickWorkspace={handleClickWorkspace}
+        />
+        <Divider size="thinner" />
+      </>
+    );
+  }
+
   return (
     <>
       {/* 1. affine-cloud */}

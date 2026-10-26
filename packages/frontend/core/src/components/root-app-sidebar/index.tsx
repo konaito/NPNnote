@@ -244,7 +244,7 @@ export const RootAppSidebar = memo((): ReactElement => {
           >
             <span data-testid="import-modal-trigger">{t['Import']()}</span>
           </MenuItem>
-          <InviteMembersButton />
+          {BUILD_CONFIG.isLocalOnly ? null : <InviteMembersButton />}
           <TemplateDocEntrance />
           {!BUILD_CONFIG.isLocalOnly && (
             <ExternalMenuLinkItem

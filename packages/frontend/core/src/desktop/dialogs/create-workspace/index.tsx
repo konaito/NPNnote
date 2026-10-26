@@ -43,8 +43,9 @@ export const CreateWorkspaceDialog = ({
   const t = useI18n();
 
   const [workspaceName, setWorkspaceName] = useState('');
+  // NPNnote: the local-only build always creates a workspace in this browser
   const [inputServerId, setInputServerId] = useState(
-    serverId ?? 'affine-cloud'
+    BUILD_CONFIG.isLocalOnly ? '' : (serverId ?? 'affine-cloud')
   );
 
   const serversService = useService(ServersService);
@@ -101,16 +102,18 @@ export const CreateWorkspaceDialog = ({
         }
       />
 
-      <FormSection
-        label={t['com.affine.nameWorkspace.subtitle.workspace-type']()}
-        input={
-          <ServerSelector
-            className={styles.select}
-            selectedId={inputServerId}
-            onChange={setInputServerId}
-          />
-        }
-      />
+      {BUILD_CONFIG.isLocalOnly ? null : (
+        <FormSection
+          label={t['com.affine.nameWorkspace.subtitle.workspace-type']()}
+          input={
+            <ServerSelector
+              className={styles.select}
+              selectedId={inputServerId}
+              onChange={setInputServerId}
+            />
+          }
+        />
+      )}
     </ConfirmModal>
   );
 };
